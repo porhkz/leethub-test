@@ -1,6 +1,6 @@
 class Solution:
     def commonChars(self, words: List[str]) -> List[str]:
-        result = defaultdict(int)
+        result = {}
         result_list = []
 
         for i, word in enumerate(words):
@@ -16,10 +16,10 @@ class Solution:
                 continue
                 
             for key, value in list(result.items()):
-                if not tmp_dict[key]:
+                if not tmp_dict.get(key):
                     result.pop(key)
                 elif tmp_dict[key] < value:
-                        result[key] = tmp_dict[key]
+                    result[key] = tmp_dict[key]
 
         for key, value in result.items():
             result_list.extend([key] * value)

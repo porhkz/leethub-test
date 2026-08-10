@@ -1,23 +1,27 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        result = s[0]
-        
-        for i, c in enumerate(s):
-            left = i
-            right = i
-            c_pal = ""
+        def expand(left, right) -> str:
+            tmp_pal = ""
 
-            if len(s) % 2 == 0 and i != len(s) - 1:
-                right = i + 1
-
-            while s[left] == s[right]:
-                c_pal = s[left:right+1]
-
-                if left != 0:
-                    left -= 1
+            while left >= 0 and right < len(s) and s[left] == s[right]:                
+                tmp_pal = s[left:right+1]
                 
-                if right != len(s) - 1:
-                    right += 1
+                if left == 0 and right == len(s) - 1:
+                    break
+                
+                left -= 1
+                right += 1
+            
+            return tmp_pal
+
+        result = s[0]
+        c_pal = ""
+        
+        for i, c in enumerate(s):            
+            odd = expand(i, i)
+            even = expand(i, i + 1)
+
+            c_pal = max(odd, even, key=len)
 
             if len(c_pal) > len(result):
                 result = c_pal
